@@ -1,0 +1,15 @@
+{
+  "name": "cap-development-learning-journey",
+  "version": "1.0.0",
+  "description": "A simple CAP project",
+  "dependencies": {
+    "@sap/cds": "^9.6.1",
+    "express": "^4"
+  },
+  "scripts": {
+    "start": "cds-serve"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^2.1.2"
+  }
+}
