@@ -3,6 +3,7 @@ namespace com.sap.learning;
 entity Books {
     key ID          : UUID;
         title       : String(255);
+        author      : Association to Authors;
         genre       : Genre;
         publCountry : String(3);
         stock       : NoOfBooks;
@@ -30,4 +31,5 @@ entity Authors {
         name        : String(100);
         dateOfBirth : Date;
         dateOfDeath : Date;
+        books       : Association to many Books on books.author = $self;
 }
