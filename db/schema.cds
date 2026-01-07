@@ -10,11 +10,11 @@ using {
 } from '@sap/cds/common';
 
 entity Books : cuid, managed {
-    title       : localized String(255);
-    author      : Association to Authors;
-    genre       : Genre;
+    title       : localized String(255) @mandatory;
+    author      : Association to Authors @mandatory @assert.target;
+    genre       : Genre @assert.range: true;
     publCountry : Country;
-    stock       : NoOfBooks;
+    stock       : NoOfBooks default 0;
     price       : Price;
     isHardcover : Boolean;
 }
