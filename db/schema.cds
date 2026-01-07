@@ -1,14 +1,22 @@
 namespace com.sap.learning;
 
-entity Books {
-    key ID          : UUID;
-        title       : String(255);
-        author      : Association to Authors;
-        genre       : Genre;
-        publCountry : String(3);
-        stock       : NoOfBooks;
-        price       : Price;
-        isHardcover : Boolean;
+// Aspects
+using {
+    cuid,
+    managed,
+    Currency,
+    Country,
+    sap.common.CodeList
+} from '@sap/cds/common';
+
+entity Books : cuid, managed {
+    title       : localized String(255);
+    author      : Association to Authors;
+    genre       : Genre;
+    publCountry : Country;
+    stock       : NoOfBooks;
+    price       : Price;
+    isHardcover : Boolean;
 }
 
 // Enumerations
@@ -23,13 +31,20 @@ type NoOfBooks : Integer;
 // Structured Types
 type Price {
     amount   : Decimal;
-    currency : String(3);
+    currency : Currency;
 }
 
-entity Authors {
-    key ID          : UUID;
-        name        : String(100);
-        dateOfBirth : Date;
-        dateOfDeath : Date;
-        books       : Association to many Books on books.author = $self;
+entity Authors : cuid, managed {
+    name        : String(100);
+    dateOfBirth : Date;
+    dateOfDeath : Date;
+    epoch       : Association to Epochs;
+    books       : Association to many Books
+                      on books.author = $self;
+}
+
+entity Epochs {
+    key ID    : Integer;
+        name  : localized String(255);
+        descr : localized String(1000);
 }

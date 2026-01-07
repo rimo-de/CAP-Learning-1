@@ -13,12 +13,12 @@
     "@cap-js/sqlite": "^2.1.2"
   },
   "cds": {
-    "requires" : {
+    "requires": {
       "db": {
         "[development]": {
           "kind": "sqlite",
           "credentials": {
-            "url": ":memory"
+            "database" : "db.sqlite"
           }
         }
       }
