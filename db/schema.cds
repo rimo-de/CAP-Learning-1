@@ -35,7 +35,7 @@ type Price {
 }
 
 entity Authors : cuid, managed {
-    name        : String(100);
+    name        : String(100) @mandatory;
     dateOfBirth : Date;
     dateOfDeath : Date;
     epoch       : Association to Epochs;
@@ -48,3 +48,11 @@ entity Epochs {
         name  : localized String(255);
         descr : localized String(1000);
 }
+
+annotate Books with {
+    modifiedAt @odata.etag;
+};
+
+annotate Authors with {
+    modifiedAt @odata.etag;
+};
