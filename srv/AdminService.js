@@ -28,7 +28,7 @@ class AdminService extends cds.ApplicationService {
     if (death < birth) {
       return req.reject(
         400,
-        `Date of death (${dateOfDeath}) is before date of birth (${dateOfBirth}).`
+        'DEATH_BEFORE_BIRTH', [dateOfDeath, dateOfBirth]
       )
     }
   }
