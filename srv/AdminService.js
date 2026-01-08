@@ -2,7 +2,7 @@ const cds = require('@sap/cds')
 
 class AdminService extends cds.ApplicationService {
   init() {
-    const { Authors } = this.entities
+    const { Authors } = this.entities // similar to const Authors = this.entities.Authors
 
     // IMPORTANT: Use CREATE/UPDATE and return/throw on reject
     this.before(['CREATE', 'UPDATE'], Authors, this.validateLifeData)
