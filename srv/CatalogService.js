@@ -1,4 +1,5 @@
 const cds = require('@sap/cds');
+const { SELECT, INSERT, UPSERT, UPDATE, DELETE } = cds.ql;
 
 class CatalogService extends cds.ApplicationService {
 
@@ -19,7 +20,7 @@ class CatalogService extends cds.ApplicationService {
         }
     }
 
-    reduceStock(req) {
+    async reduceStock(req) {
         const { Books } = this.entities;
         const { book, quantity } = req.data;
 
@@ -27,9 +28,17 @@ class CatalogService extends cds.ApplicationService {
             return req.error('This quantity must be at least 1.');
         }
 
-        let stock = 10;
+        const exists = await SELECT.one.from(Books).where({ ID: book }).columns('ID');
+        if (!exists) return req.error(404, `Book with ID ${book} does not exist`);
+
+        const affected = await UPDATE(Books).where({ ID: book, stock: { '>=': quantity } }).with({ stock: { '-=': quantity } });
+
+        if (affected === 0) return req.error(409, 'Not enough stock.');
+
+        const { stock } = await SELECT.one.from(Books).where({ ID: book }).columns('stock');
         return { stock };
     }
 }
 
 module.exports = CatalogService;
+
